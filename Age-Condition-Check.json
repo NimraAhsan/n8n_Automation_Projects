@@ -1,0 +1,205 @@
+{
+  "name": "Age-Condition-Check",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -208,
+        16
+      ],
+      "id": "4a8818ea-f3e2-4c7d-8c1f-90e20ee482e6",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "c24586a3-c9eb-4848-869b-a9de828b508e",
+              "name": "Name:",
+              "value": "=Nimra",
+              "type": "string"
+            },
+            {
+              "id": "9bd58991-5f1f-4800-9438-a935a4ec4123",
+              "name": "Age",
+              "value": "=1000",
+              "type": "number"
+            },
+            {
+              "id": "df248193-366f-4b1b-be42-4da7b7193ac3",
+              "name": "status",
+              "value": "active",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        0,
+        16
+      ],
+      "id": "55e69d4a-e5bc-4e97-a30e-211a3a98d07a",
+      "name": "Set Data",
+      "notesInFlow": true,
+      "notes": "Name: Namra\nAge:25\nstatus: active"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "17211acf-85f2-4770-8c0d-93448392e2c3",
+              "leftValue": "={{ $json.Age }}",
+              "rightValue": 18,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        208,
+        16
+      ],
+      "id": "65462385-69ec-4d39-a276-c3244841c3a1",
+      "name": "Check Age",
+      "notesInFlow": true,
+      "notes": "IF Age > 18 ?"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "cfdf8da5-8ebe-4812-af74-681d0e16f0fc",
+              "name": "message",
+              "value": "User is under 18",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        416,
+        112
+      ],
+      "id": "c49335f3-a60d-4820-9daa-a3dd320aac88",
+      "name": "Under 18 Message",
+      "notesInFlow": true,
+      "notes": "Message: \"User is under 18\""
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "99e81518-4953-48dc-a5d4-fde0dec1998c",
+              "name": "message",
+              "value": "=User is adult",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        448,
+        -96
+      ],
+      "id": "e332ac4d-af61-4df9-a3d1-e697c134e9e3",
+      "name": "Adult Message",
+      "notesInFlow": true,
+      "notes": "Message: User is adult"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Set Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Data": {
+      "main": [
+        [
+          {
+            "node": "Check Age",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Age": {
+      "main": [
+        [
+          {
+            "node": "Adult Message",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Under 18 Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "532a396f-6512-4691-a811-4ac083a7fccf",
+  "meta": {
+    "instanceId": "bda8f2d02e696c407662678688ba1d567cec8f1d397a10bd135279917fdb8c49"
+  },
+  "id": "56wPNkN4N7cfsvL2",
+  "tags": [
+    {
+      "name": "condition",
+      "id": "bDFFTtDxPN5amEtG",
+      "updatedAt": "2025-12-25T06:40:42.149Z",
+      "createdAt": "2025-12-25T06:40:42.149Z"
+    },
+    {
+      "name": "workflow",
+      "id": "fqVW2Nh3yearmnXD",
+      "updatedAt": "2025-12-25T06:40:35.805Z",
+      "createdAt": "2025-12-25T06:40:35.805Z"
+    }
+  ]
+}
