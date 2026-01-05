@@ -1,0 +1,204 @@
+{
+  "name": "Automated Cryptocurrency Monitoring",
+  "nodes": [
+    {
+      "parameters": {
+        "url": "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        208,
+        0
+      ],
+      "id": "6d9f1d8c-e15a-42de-b81e-c9cf579f4cc5",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "331bb14e-7204-4933-ad72-dd89368f485f",
+              "name": "Current Price",
+              "value": "={{ $json.bitcoin.usd }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        416,
+        0
+      ],
+      "id": "72b28f71-7964-4b22-97b6-3ea0eaa7a747",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "path": "c34f783c-c81b-4fc2-bc7e-f4bbb28c644c",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "e6e263ff-0309-4f36-afd1-9da2218a48a1",
+      "name": "Webhook",
+      "webhookId": "c34f783c-c81b-4fc2-bc7e-f4bbb28c644c"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "763a59e2-5b68-4484-941e-3c1565221f48",
+              "leftValue": "={{ $json['Current Price'] }}",
+              "rightValue": 90000,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        624,
+        0
+      ],
+      "id": "43c991c0-bb2e-472b-9fa7-67f71b1727ee",
+      "name": "If"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        960,
+        176
+      ],
+      "id": "407c1995-083f-4307-8ec2-b95646d05d87",
+      "name": "No Operation, do nothing"
+    },
+    {
+      "parameters": {
+        "sendTo": "nimra.ehsan54321@gmail.com ",
+        "subject": "Hello namra u r great 👏",
+        "emailType": "text",
+        "message": "=Current Bitcoin price is {{ $json['Current Price'] }} USD. Target achieved",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        944,
+        -112
+      ],
+      "id": "db595ceb-0f6e-400b-866d-178b253fa02c",
+      "name": "Send a message",
+      "webhookId": "9662c353-37cf-4701-b217-7f63d8410366",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "Pm9QgDd6ZOHH2e3r",
+          "name": "Gmail account 5"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "705a2363-c267-4d65-854a-8425665959cc",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "bda8f2d02e696c407662678688ba1d567cec8f1d397a10bd135279917fdb8c49"
+  },
+  "id": "oFPZCGtssDcnNoEk",
+  "tags": [
+    {
+      "updatedAt": "2026-01-05T08:17:25.677Z",
+      "createdAt": "2026-01-05T08:17:25.677Z",
+      "id": "4jpfcUUI8ZORLCzS",
+      "name": "get-method"
+    },
+    {
+      "updatedAt": "2026-01-05T08:17:48.001Z",
+      "createdAt": "2026-01-05T08:17:48.001Z",
+      "id": "hqou37fnRmshhQ7D",
+      "name": "http-request"
+    }
+  ]
+}
